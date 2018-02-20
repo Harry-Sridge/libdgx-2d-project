@@ -145,7 +145,7 @@ public class Island {
                 {
                     //Randomly assign tiles type
                     //TODO: This random system is not very good...
-                    if(MathUtils.random(100)>0)
+                    if(MathUtils.random(100)>60)
                     {
                         tile.texture = GetRandomGrassTexture();
                         tile.type = tileType.Grass;

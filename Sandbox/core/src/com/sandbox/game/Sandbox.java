@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 public class Sandbox extends ApplicationAdapter {
@@ -38,7 +37,7 @@ public class Sandbox extends ApplicationAdapter {
 		int w = (int)(displayW/(displayH/(displayH/Math.floor(displayH/160))));
 
 		camera = new OrthographicCamera(w,h);
-		camera.zoom = 3f;
+		camera.zoom = 2f;
 
 		//Set controller
 		control = new Control(displayW, displayH, camera);
@@ -47,7 +46,7 @@ public class Sandbox extends ApplicationAdapter {
         Asset.Load();
 
         //Initialize basic world objects
-        island = new Island(box2D, 50, 5, 50);
+        island = new Island(box2D, 10, 1, 50);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
 
@@ -63,7 +62,7 @@ public class Sandbox extends ApplicationAdapter {
 		//Pre render
         if(control.reset)
         {
-            island = new Island(box2D, 50, 5, 50);
+            island = new Island(box2D, 10, 1, 50);
             player.Reset(box2D, island.GetCentreTilePos());
             island.entities.add(player);
             box2D.PopulateEntityMap(island.entities);

@@ -19,18 +19,17 @@ public class Chunk {
 
     public Tile GetTile(int r, int c)
     {
-        if(r>=0&&r<tiles.length&&c>=0&&c<tiles[0].length)
-        {
-            return tiles[r][c];
-        }
-        return null;
+        return tiles[r][c];
     }
 
     public String GetTileCode(int r, int c)
     {
-        if(r>=0&&r<tiles.length&&c>=0&&c<tiles[0].length)
+        if(r>=0&&c>=0)
         {
-            return tiles[r][c].isGrass()?"1":"0";
+            if(r<size&&c<size)
+            {
+                return tiles[r][c].isGrass()? "1" : "0" ;
+            }
         }
         return "0";
     }

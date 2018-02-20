@@ -21,6 +21,7 @@ public class Tile extends Entity{
     public List<Texture> secondaryTextures = new ArrayList<Texture>();
     public tileType type;
     public boolean occupied;
+    int surroundingTiles = 0;
 
     public Tile(float x, float y, int size, tileType type, Texture texture)
     {
@@ -35,7 +36,8 @@ public class Tile extends Entity{
         this.code = "";
     }
 
-    public String details(){
+    public String details()
+    {
         return "x: " + pos.x + " y: " + pos.y + " row: " + row + " col: " + col + " code: " + code + " type: " + type.toString();
     }
 

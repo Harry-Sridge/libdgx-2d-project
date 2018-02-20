@@ -28,9 +28,16 @@ public class Chunk {
         {
             if(r<size&&c<size)
             {
-                return tiles[r][c].isGrass()? "1" : "0" ;
+                return tiles[r][c].isGrass()? "1" : "0";
+            }
+            else
+            {
+                return "0";
             }
         }
-        return "0";
+        else
+        {
+            return "0";
+        }
     }
 }

@@ -10,19 +10,20 @@ import com.badlogic.gdx.graphics.Texture;
 public class Asset {
 
     // TILES
-    public static Texture grass_01, grass_02, grass_03, grass_04;
-    public static Texture grass_left, grass_right;
-    public static Texture grass_left_upper_edge, grass_right_upper_edge;
-    public static Texture grass_top, grass_top_right, grass_top_left;
-    public static Texture water_01, water_02, water_03, water_04;
-    public static Texture cliff;
+    static Texture grass_01, grass_02, grass_03, grass_04;
+    static Texture grass_left, grass_right, grass_most_left, grass_most_right;
+    static Texture grass_left_upper_edge, grass_right_upper_edge, grass_inside_left, grass_inside_right;
+    static Texture grass_top, grass_top_right, grass_top_left;
+    static Texture water_01, water_02, water_03, water_04;
+    static Texture cliff;
+    static Texture cliff_bottom;
 
     //STUFF
-    public static Texture tree;
-    public static Texture house;
+    static Texture tree;
+    static Texture house;
 
     // Player
-    public static Texture player;
+    static Texture player;
 
     public static void Load(){
         grass_01 = new Texture("8x8/grass/grass_01.png");
@@ -32,9 +33,13 @@ public class Asset {
 
         grass_left = new Texture("8x8/grass/right_grass_edge.png");
         grass_right = new Texture("8x8/grass/left_grass_edge.png");
+        grass_most_left = new Texture("8x8/grass/right_most_grass_edge.png");
+        grass_most_right = new Texture("8x8/grass/left_most_grass_edge.png");
 
         grass_left_upper_edge = new Texture("8x8/grass/left_upper_edge.png");
         grass_right_upper_edge = new Texture("8x8/grass/right_upper_edge.png");
+        grass_inside_left = new Texture("8x8/grass/grass_inside_left.png");
+        grass_inside_right = new Texture("8x8/grass/grass_inside_right.png");
 
         grass_top = new Texture("8x8/grass/top.png");
         grass_top_right = new Texture("8x8/grass/top_right.png");
@@ -45,6 +50,7 @@ public class Asset {
         water_03 = new Texture("8x8/water/water_03.png");
         water_04 = new Texture("8x8/water/water_04.png");
         cliff = new Texture(Gdx.files.internal("8x8/cliff.png"));
+        cliff_bottom = new Texture(Gdx.files.internal("8x8/cliff_bottom.png"));
 
         tree = new Texture("8x8/tree.png");
         house = new Texture("8x8/house.png");

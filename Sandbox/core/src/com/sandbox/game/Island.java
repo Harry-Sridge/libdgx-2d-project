@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 import java.util.ArrayList;
@@ -95,6 +95,8 @@ public class Island {
         entities.clear();
         box2D.Clear();
         SetupTiles();
+        //SmoothMap();
+        AddSecondaryTextures();
         AssignTileCodes();
         GenerateColliders(box2D);
         AddEntities(box2D);
@@ -136,19 +138,17 @@ public class Island {
 
                 //Create TILE
                 //default tile is water
-                Tile tile = new Tile(row, col, chunk.tileSize, tileType.Water, GetRandomWaterTexture());
+                Tile tile = new Tile(col, row, chunk.tileSize, tileType.Water, GetRandomWaterTexture());
                 //since the island is smaller than chunk,
                 //check if current index is within island size.
-
-                if(row > border && row < (chunkSize-border) && col > border && col < (chunkSize-border))
+                if(row >= border && row < (chunkSize-border) && col >= border && col < (chunkSize-border))
                 {
                     //Randomly assign tiles type
                     //TODO: This random system is not very good...
-                    if(MathUtils.random(100)>20)
+                    if(MathUtils.random(100)>50)
                     {
                         tile.texture = GetRandomGrassTexture();
                         tile.type = tileType.Grass;
-                        tile.code = "1";
                     }
                 }
 
@@ -169,8 +169,7 @@ public class Island {
         }
 
         //TODO: Smoothed island is not really smooth...
-        //Smooth out chunk
-        SmoothMap();
+
         //Set centre tile for camera positioning
         centreTile = chunk.GetTile(centerRow, centerCol);
     }
@@ -208,12 +207,12 @@ public class Island {
                 if (chunk.tiles[r][c].surroundingTiles >= 4)
                 {
                     smoothedChunk.tiles[r][c].texture = GetRandomWaterTexture();
-                    smoothedChunk.tiles[r][c].type = Enums.tileType.Water;
+                    smoothedChunk.tiles[r][c].type = tileType.Water;
                 }
                 else if (chunk.tiles[r][c].surroundingTiles < 4)
                 {
                     smoothedChunk.tiles[r][c].texture = GetRandomGrassTexture();
-                    smoothedChunk.tiles[r][c].type = Enums.tileType.Grass;
+                    smoothedChunk.tiles[r][c].type = tileType.Grass;
                 }
             }
         }
@@ -229,7 +228,6 @@ public class Island {
         }
         //don't know the difference between the loop above and
         //chunk = smoothedChunk;
-
     }
 
     private int GetSurroundingTiles(int r, int c, Chunk chunk)
@@ -296,10 +294,10 @@ public class Island {
         }
     }
 
+    //TODO: Secondary texture updates are obsolete
     private void UpdateImage(Tile tile)
     {
         // Secondary Texture is to add edges to tiles
-        // TODO: Some textures missing for certain tile placements
         if(Arrays.asList(a_grass_left).contains(tile.code)){
             tile.secondaryTextures.add(Asset.grass_left);
         } else if(Arrays.asList(a_grass_right).contains(tile.code)){
@@ -317,14 +315,100 @@ public class Island {
         }
     }
 
-    //TODO: Collider gen is broken
+    private void AddSecondaryTextures()
+    {
+        for(int r = border-1; r <= chunkSize-border; r++)
+        {
+            for(int c = border-1; c <= chunkSize-border; c++)
+            {
+                if(chunk.tiles[r][c].type == tileType.Water)
+                {
+                    //bottom
+                    if(chunk.tiles[r+1][c].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r-1][c].type == tileType.Grass)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.cliff);
+                        else
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.cliff_bottom);
+                        chunk.tiles[r][c].type = tileType.Cliff;
+                    }
+                    //inside left
+                    if(chunk.tiles[r+1][c].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c-1].type == tileType.Grass)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inside_left);
+                    }
+                    //inside right
+                    if(chunk.tiles[r+1][c].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c+1].type == tileType.Grass)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inside_right);
+                    }
+                    //top left edge
+                    if(chunk.tiles[r-1][c+1].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c+1].type == tileType.Water)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_top_left);
+                    }
+                    //top right edge
+                    if(chunk.tiles[r-1][c-1].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c-1].type == tileType.Water)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_top_right);
+                    }
+                    //left edge
+                    if(chunk.tiles[r][c+1].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c].type == tileType.Cliff)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_left);
+                        else
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_most_left);
+                    }
+                    //right edge
+                    if(chunk.tiles[r][c-1].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c].type == tileType.Cliff)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_right);
+                        else
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_most_right);
+                    }
+                    //top edge
+                    if(chunk.tiles[r-1][c].type == tileType.Grass)
+                    {
+                        chunk.tiles[r][c].secondaryTextures.add(Asset.grass_top);
+                    }
+
+                    //bottom left edge
+                    if(chunk.tiles[r+1][c-1].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c-1].type == tileType.Cliff)
+                        {
+                            if(chunk.tiles[r+1][c].type != tileType.Grass)
+                                chunk.tiles[r][c].secondaryTextures.add(Asset.grass_left_upper_edge);
+                        }
+                    }
+
+                    //bottom right edge
+                    if(chunk.tiles[r+1][c+1].type == tileType.Grass)
+                    {
+                        if(chunk.tiles[r][c+1].type == tileType.Water)
+                        {
+                            if(chunk.tiles[r+1][c].type != tileType.Grass)
+                                chunk.tiles[r][c].secondaryTextures.add(Asset.grass_right_upper_edge);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void GenerateColliders(Box2DWorld box2D)
     {
         for(Tile[] tiles : chunk.tiles)
         {
             for(Tile tile : tiles)
             {
-                //there's no need to generate hitboxes for grass tiles.
+                //there's no need to generate hit boxes for grass tiles.
                 if(!tile.passable())
                 {
                     if(!tile.isAllWater())
@@ -336,6 +420,7 @@ public class Island {
                 }
             }
         }
+        System.out.println();
     }
 
     private Texture GetRandomGrassTexture()
@@ -390,7 +475,7 @@ public class Island {
                 // 0 X 0
                 // 0 0 0
 
-                int[] rows = {1, 0, -1};
+                int[] rows = {-1, 0, 1};
                 int[] cols = {-1, 0, 1};
 
                 for(int r: rows){

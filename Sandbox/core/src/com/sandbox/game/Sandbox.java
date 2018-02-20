@@ -46,7 +46,7 @@ public class Sandbox extends ApplicationAdapter {
         Asset.Load();
 
         //Initialize basic world objects
-        island = new Island(box2D, 30, 2, 50);
+        island = new Island(box2D, 30, 5, 50);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
 
@@ -62,7 +62,7 @@ public class Sandbox extends ApplicationAdapter {
 		//Pre render
         if(control.reset)
         {
-            island = new Island(box2D, 30, 2, 50);
+            island = new Island(box2D, 30, 5, 50);
             player.Reset(box2D, island.GetCentreTilePos());
             island.entities.add(player);
             box2D.PopulateEntityMap(island.entities);

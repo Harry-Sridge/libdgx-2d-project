@@ -14,6 +14,9 @@ import java.util.ArrayList;
 public class Player extends Entity{
 
     ArrayList<Entity> interactEntities;
+    int health;
+    int exp;
+    String name;
 
     public Player(Vector3 pos, Box2DWorld box2D)
     {

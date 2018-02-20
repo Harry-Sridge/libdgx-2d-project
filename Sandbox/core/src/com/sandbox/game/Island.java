@@ -145,7 +145,7 @@ public class Island {
                 {
                     //Randomly assign tiles type
                     //TODO: This random system is not very good...
-                    if(MathUtils.random(100)>50)
+                    if(MathUtils.random(100)>0)
                     {
                         tile.texture = GetRandomGrassTexture();
                         tile.type = tileType.Grass;
@@ -168,7 +168,7 @@ public class Island {
             }
         }
 
-        //TODO: Smoothed island is not really smooth...
+        //TODO: Smoothed island is BROKEN
         //Set centre tile for camera positioning
         centreTile = chunk.GetTile(centerRow, centerCol);
     }

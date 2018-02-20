@@ -44,12 +44,34 @@ public class Player extends Entity{
 
         if(control.down)
             yDir = -1;
+        
         if(control.up)
             yDir = 1;
+        
         if(control.left)
             xDir = -1;
+        
         if(control.right)
             xDir = 1;
+        
+        if(control.right && control.up) {
+        	xDir = (float) Math.sqrt(0.5);
+        	yDir = (float) Math.sqrt(0.5);
+        }
+        
+        if(control.right && control.down) {
+        	xDir = (float) Math.sqrt(0.5);
+        	yDir = (float) - Math.sqrt(0.5);
+        }
+        
+        if(control.left && control.up) {
+        	xDir = (float) - Math.sqrt(0.5);
+        	yDir = (float) Math.sqrt(0.5);
+        }
+        if(control.left && control.down) {
+        	xDir = (float) - Math.sqrt(0.5);
+        	yDir = (float) - Math.sqrt(0.5);
+        }
 
         body.setLinearVelocity(xDir*speed, yDir*speed);
         pos.x = body.getPosition().x - width/2;

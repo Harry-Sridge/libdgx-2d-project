@@ -14,6 +14,7 @@ public class Asset {
     static Texture grass_left, grass_right, grass_most_left, grass_most_right;
     static Texture grass_left_upper_edge, grass_right_upper_edge, grass_inside_left, grass_inside_right;
     static Texture grass_top, grass_top_right, grass_top_left;
+    static Texture grass_inlet, grass_hole;
     static Texture water_01, water_02, water_03, water_04;
     static Texture cliff;
     static Texture cliff_bottom;
@@ -44,6 +45,9 @@ public class Asset {
         grass_top = new Texture("8x8/grass/top.png");
         grass_top_right = new Texture("8x8/grass/top_right.png");
         grass_top_left = new Texture("8x8/grass/top_left.png");
+
+        grass_inlet = new Texture("8x8/grass/grass_inlet.png");
+        grass_hole = new Texture("8x8/grass/grass_hole.png");
 
         water_01 = new Texture("8x8/water/water_01.png");
         water_02 = new Texture("8x8/water/water_02.png");

@@ -169,7 +169,6 @@ public class Island {
         }
 
         //TODO: Smoothed island is not really smooth...
-
         //Set centre tile for camera positioning
         centreTile = chunk.GetTile(centerRow, centerCol);
     }
@@ -332,17 +331,29 @@ public class Island {
                             chunk.tiles[r][c].secondaryTextures.add(Asset.cliff_bottom);
                         chunk.tiles[r][c].type = tileType.Cliff;
                     }
-                    //inside left
+                    //if top tile is grass
                     if(chunk.tiles[r+1][c].type == tileType.Grass)
                     {
-                        if(chunk.tiles[r][c-1].type == tileType.Grass)
-                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inside_left);
-                    }
-                    //inside right
-                    if(chunk.tiles[r+1][c].type == tileType.Grass)
-                    {
+                        //and if right tile is grass
                         if(chunk.tiles[r][c+1].type == tileType.Grass)
-                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inside_right);
+                        {
+                            //and if left tile is grass
+                            if(chunk.tiles[r][c-1].type == tileType.Grass)
+                            {
+                                //and if bottom tile is grass
+                                if(chunk.tiles[r-1][c].type == tileType.Grass)
+                                    chunk.tiles[r][c].secondaryTextures.add(Asset.grass_hole); //it's a hole
+                                //and if bottom tile is water
+                                else if(chunk.tiles[r-1][c].type == tileType.Water)
+                                    chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inlet); //it's an inlet
+                            }
+                            //but left tile is not grass
+                            else
+                                chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inside_right); //it's a inside right corner
+                        }
+                        //but right tile is not grass, and if left tile is grass
+                        else if(chunk.tiles[r][c-1].type == tileType.Grass)
+                            chunk.tiles[r][c].secondaryTextures.add(Asset.grass_inside_left); //it's a inside left turn.
                     }
                     //top left edge
                     if(chunk.tiles[r-1][c+1].type == tileType.Grass)

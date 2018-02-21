@@ -135,30 +135,35 @@ public class Island {
                 //Grass - 1
                 //default tile is water
                 Tile tile = new Tile(col, row, chunk.tileSize, tileType.Water, GetRandomWaterTexture());
-
-                //place seed
-                if(row == centerRow && col == centerCol)
-                {
-                    tile.type = tileType.Grass;
-                    tile.texture = GetRandomGrassTexture();
-                }
                 chunk.tiles[row][col] = tile;
             }
         }
-        SmoothMap(chunk, centerRow, centerCol, iterations);
+
+        //Store initial seeds
+        List<Tile> seeds = new ArrayList<Tile>();
+
+        //Manually add seeds here
+        //You can think of a better way to add seeds
+        Tile seed = new Tile(centerRow, centerCol, chunk.tileSize, tileType.Grass, GetRandomGrassTexture());
+        chunk.tiles[centerRow][centerCol] = seed;
+        seeds.add(seed);
+
+        SmoothMap(chunk, seeds, iterations);
+
         //Set centre tile for camera positioning
         centreTile = chunk.GetTile(centerRow, centerCol);
     }
 
     //TODO: SmoothMap() still causes diagonal anomalies, maybe write into a fresh 2D array?
-    private void SmoothMap (Chunk chunk, int seedRow, int seedCol, int iterations)
+    private void SmoothMap (Chunk chunk, List<Tile> seeds, int iterations)
     {
         //Store the newest seeds (the ones that had just been generated)
         //to avoid repeatedly checking older tiles
         List<Tile> nextSeeds = new ArrayList<Tile>();
         List<Tile> tempSeeds = new ArrayList<Tile>();
         //Add first seed to list
-        nextSeeds.add(chunk.tiles[seedRow][seedCol]);
+        for(Tile t : seeds)
+            nextSeeds.add(t);
 
         for(int i = 0; i < iterations; i++)
         {

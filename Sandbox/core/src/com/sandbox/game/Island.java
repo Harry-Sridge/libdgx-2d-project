@@ -31,51 +31,6 @@ public class Island {
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
 
-    //for mapping sprites
-    //Obsolete for now
-    private String[] a_grass_left = {"001001001", "001001000", "000001001"};
-    /*
-    0 0 1   0 0 1   0 0 0
-    0 0 1   0 0 1   0 0 1
-    0 0 1   0 0 0   0 0 1
-     */
-    private String[] a_grass_right = {"100100100","100100000","000100100"};
-    /*
-    1 0 0   1 0 0   0 0 0
-    1 0 0   1 0 0   1 0 0
-    1 0 0   0 0 0   1 0 0
-     */
-    private String[] a_grass_r_end = {"100000000"};
-    /*
-    1 0 0
-    0 0 0
-    0 0 0
-     */
-    private String[] a_grass_l_end = {"001000000"};
-    /*
-    0 0 1
-    0 0 0
-    0 0 0
-     */
-    private String[] a_grass_top = {"000000111", "000000011","000000110"};
-    /*
-    0 0 0   0 0 0   0 0 0
-    0 0 0   0 0 0   0 0 0
-    1 1 1   0 1 1   1 1 0
-     */
-    private String[] a_grass_top_right = {"000000100"};
-    /*
-    0 0 0
-    0 0 0
-    1 0 0
-     */
-    private String[] a_grass_top_left = {"000000001"};
-    /*
-    0 0 0
-    0 0 0
-    0 0 1
-     */
-
     public Island(Box2DWorld box2D, int chunkSize, int iterations)
     {
         this.chunkSize = chunkSize;
@@ -192,8 +147,12 @@ public class Island {
                         tempSeeds.add(t);
                         spread++;
                     }
-
                 }
+
+                //If the current seed does not spread, keep that seed.
+                if(spread == 0)
+                    tempSeeds.add(nextSeeds.get(j));
+
                 System.out.println("Spread from current seed: " + spread);
                 System.out.println("Total seeds: " + tempSeeds.size());
                 System.out.println();

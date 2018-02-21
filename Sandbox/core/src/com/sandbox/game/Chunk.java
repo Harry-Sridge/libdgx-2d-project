@@ -24,9 +24,9 @@ public class Chunk {
 
     public String GetTileCode(int r, int c)
     {
-        if(r>=0&&c>=0)
+        if(r >= 0 && c >= 0)
         {
-            if(r<size&&c<size)
+            if(r < size && c < size)
             {
                 return tiles[r][c].isGrass()? "1" : "0";
             }

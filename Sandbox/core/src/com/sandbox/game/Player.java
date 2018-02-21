@@ -11,7 +11,7 @@ import com.sandbox.game.Enums.entityType;
 
 import java.util.ArrayList;
 
-public class Player extends Entity{
+public class Player extends Entity {
 
     ArrayList<Entity> interactEntities;
     int health;

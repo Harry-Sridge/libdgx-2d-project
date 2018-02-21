@@ -20,11 +20,10 @@ public class Player extends Entity{
 
     public Player(Vector3 pos, Box2DWorld box2D)
     {
-        type= entityType.Hero;
+        type = entityType.Player;
         width = 5;
         height = 5;
-        this.pos.x = pos.x;
-        this.pos.y = pos.y;
+        this.pos = pos;
         texture = Asset.player;
         speed = 20f;
         Reset(box2D, pos);

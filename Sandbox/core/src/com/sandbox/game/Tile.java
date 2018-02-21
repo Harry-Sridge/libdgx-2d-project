@@ -21,7 +21,6 @@ public class Tile extends Entity{
     public List<Texture> secondaryTextures = new ArrayList<Texture>();
     public tileType type;
     public boolean occupied;
-    int surroundingTiles = 0;
 
     public Tile(float x, float y, int size, tileType type, Texture texture)
     {

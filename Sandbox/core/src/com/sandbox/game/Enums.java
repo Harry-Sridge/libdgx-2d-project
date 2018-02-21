@@ -13,6 +13,6 @@ public class Enums {
 
     public enum entityType
     {
-        Hero, Tree, House
+        Player, Tree, House, Slime
     }
 }

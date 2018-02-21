@@ -7,6 +7,7 @@ package com.sandbox.game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import Box2D.Box2DHelper;
 import Box2D.Box2DWorld;
@@ -20,9 +21,8 @@ import com.badlogic.gdx.math.MathUtils;
 public class Island {
 
     //TODO: Maybe find a better way to generate an island
-    private int fillPercent;
     private int chunkSize;
-    private int border;
+    private int iterations;
 
     Tile centreTile;
 
@@ -76,11 +76,10 @@ public class Island {
     0 0 1
      */
 
-    public Island(Box2DWorld box2D, int chunkSize, int border, int fillPercent)
+    public Island(Box2DWorld box2D, int chunkSize, int iterations)
     {
         this.chunkSize = chunkSize;
-        this.border = border;
-        this.fillPercent = fillPercent;
+        this.iterations = iterations;
 
         //create new chunks
         chunk = new Chunk(chunkSize, 8);
@@ -95,7 +94,6 @@ public class Island {
         entities.clear();
         box2D.Clear();
         SetupTiles();
-        //SmoothMap();
         AddSecondaryTextures();
         AssignTileCodes();
         GenerateColliders(box2D);
@@ -125,129 +123,120 @@ public class Island {
     private void SetupTiles()
     {
         //get reference positions
-        int centerRow = chunk.size / 2;
-        int centerCol = chunk.size / 2;
+        int centerRow = chunkSize / 2;
+        int centerCol = chunkSize / 2;
 
         // Loop through the chunk and add tiles
-        for(int row = 0; row < chunk.size; row ++)
+        for(int row = 0; row < chunkSize; row ++)
         {
-            for(int col = 0; col < chunk.size; col ++)
+            for(int col = 0; col < chunkSize; col ++)
             {
                 //Water - 0
                 //Grass - 1
-
-                //Create TILE
                 //default tile is water
                 Tile tile = new Tile(col, row, chunk.tileSize, tileType.Water, GetRandomWaterTexture());
-                //since the island is smaller than chunk,
-                //check if current index is within island size.
-                if(row >= border && row < (chunkSize-border) && col >= border && col < (chunkSize-border))
-                {
-                    //Randomly assign tiles type
-                    //TODO: This random system is not very good...
-                    if(MathUtils.random(100)>60)
-                    {
-                        tile.texture = GetRandomGrassTexture();
-                        tile.type = tileType.Grass;
-                    }
-                }
 
-                //add tile to chunk.
+                //place seed
+                if(row == centerRow && col == centerCol)
+                {
+                    tile.type = tileType.Grass;
+                    tile.texture = GetRandomGrassTexture();
+                }
                 chunk.tiles[row][col] = tile;
             }
         }
-
-        //Initialize smoothedChunk with water
-        //At this point, chunk is randomly filled with grass, and smoothedChunk is just water.
-        for(int i = 0; i < chunkSize; i++)
-        {
-            for(int j = 0; j < chunkSize; j++)
-            {
-                Tile tile = new Tile(i, j, 8, tileType.Water, GetRandomWaterTexture());
-                smoothedChunk.tiles[i][j] = tile;
-            }
-        }
-
-        //TODO: Smoothed island is BROKEN
+        SmoothMap(chunk, centerRow, centerCol, iterations);
         //Set centre tile for camera positioning
         centreTile = chunk.GetTile(centerRow, centerCol);
     }
 
-    private void SmoothMap ()
+    //TODO: SmoothMap() still causes diagonal anomalies, maybe write into a fresh 2D array?
+    private void SmoothMap (Chunk chunk, int seedRow, int seedCol, int iterations)
     {
-        //first loop, get surrounding tiles for each tile in chunk
-        //we are excluding the outer most edge
-        for(int r = 1; r < chunkSize-1; r++)
-        {
-            for(int c = 1; c < chunkSize-1; c++)
-            {
-                //if current tile is not null
-                if(chunk.tiles[r][c] != null)
-                {
-                    //Get its surrounding tiles.
-                    //At this point, smoothedChunk is still empty.
-                    chunk.tiles[r][c].surroundingTiles = GetSurroundingTiles(r, c, chunk);
-                    //Debug info
-                    //System.out.println("Position: " + chunk.tiles[r][c].row + ", " + chunk.tiles[r][c].col);
-                    //System.out.println("Current tile type: " + chunk.GetTileCode(r, c));
-                    //System.out.println("Neighboring tiles: " + chunk.tiles[r][c].surroundingTiles);
-                    //System.out.println();
-                }
-            }
-        }
+        //Store the newest seeds (the ones that had just been generated)
+        //to avoid repeatedly checking older tiles
+        List<Tile> nextSeeds = new ArrayList<Tile>();
+        List<Tile> tempSeeds = new ArrayList<Tile>();
+        //Add first seed to list
+        nextSeeds.add(chunk.tiles[seedRow][seedCol]);
 
-        //second loop, smooth tiles according to their surrounding tiles
-        for(int r = 1; r < chunkSize-1; r++)
+        for(int i = 0; i < iterations; i++)
         {
-            for(int c = 1; c < chunkSize-1; c++)
+            System.out.println("Iteration " + i);
+            for(int j = 0; j < nextSeeds.size(); j++)
             {
-                //Write into smoothedChunk
-                //can the threshold be a variable?
-                if (chunk.tiles[r][c].surroundingTiles >= 4)
-                {
-                    smoothedChunk.tiles[r][c].texture = GetRandomWaterTexture();
-                    smoothedChunk.tiles[r][c].type = tileType.Water;
-                }
-                else if (chunk.tiles[r][c].surroundingTiles < 4)
-                {
-                    smoothedChunk.tiles[r][c].texture = GetRandomGrassTexture();
-                    smoothedChunk.tiles[r][c].type = tileType.Grass;
-                }
-            }
-        }
+                //current seed
+                Tile seed = nextSeeds.get(j);
+                //get max possible spread from current seed
+                List<Tile> freeTiles = GetFreeTiles(seed.row, seed.col);
 
-        //copy tiles over from smoothedChunk to chunk,
-        //because we still want to use chunk for everything.
-        for(int i = 0; i < chunkSize; i++)
-        {
-            for(int j = 0; j < chunkSize; j++)
-            {
-                chunk.tiles[i][j] = smoothedChunk.tiles[i][j];
+                //Debug
+                System.out.println("Seed " + j + " pos: [" + seed.row + ", " + seed.col + "] Free tiles: " + freeTiles.size());
+
+                int spread = 0;
+                for(Tile t : freeTiles)
+                {
+                    //Each free water tile surrounding the current seed tile
+                    //will have a 50% of becoming a grass tile.
+                    if(Math.random() > 0.5f)
+                    {
+                        t.type = tileType.Grass;
+                        t.texture = GetRandomGrassTexture();
+                        chunk.tiles[t.row][t.col] = t;
+                        //the new grass tile is then will become next batch of seeds.
+                        tempSeeds.add(t);
+                        spread++;
+                    }
+
+                }
+                System.out.println("Spread from current seed: " + spread);
+                System.out.println("Total seeds: " + tempSeeds.size());
+                System.out.println();
             }
+            //Update seed queue
+            nextSeeds.clear();
+            for(Tile t : tempSeeds)
+                nextSeeds.add(t);
+            tempSeeds.clear();
         }
-        //don't know the difference between the loop above and
-        //chunk = smoothedChunk;
     }
 
-    private int GetSurroundingTiles(int r, int c, Chunk chunk)
+    private List<Tile> GetFreeTiles(int r, int c)
     {
-        int surroundingTiles = 0;
-
-        int[] adjacentRows = {1, 0, -1};
+        int[] adjacentRows = {-1, 0, 1};
         int[] adjacentCols = {-1, 0, 1};
+        List<Tile> freeTiles = new ArrayList<Tile>();
 
+        //check adjacent row and column separately; we do not want seeds to spread diagonally.
+        //first check up and down
+        //are the tiles above and below free?
         for(int row : adjacentRows)
         {
-            for(int col : adjacentCols)
+            if(r+row >= 0)
             {
-                //check all tiles surrounding current tile
-                if(chunk.tiles[r+row][c+col].type == tileType.Water)
+                if(r+row < chunkSize)
                 {
-                    surroundingTiles++;
+                    if(chunk.tiles[r+row][c].type == tileType.Water)
+                        freeTiles.add(chunk.tiles[r+row][c]);
                 }
             }
         }
-        return surroundingTiles-1;
+
+        //Check left and right
+        //are the tiles on both sides free?
+        for(int col : adjacentCols)
+        {
+            if(c+col >= 0)
+            {
+                if(c+col < chunkSize)
+                {
+                    if(chunk.tiles[r][c+col].type == tileType.Water)
+                        freeTiles.add(chunk.tiles[r][c+col]);
+                }
+            }
+        }
+
+        return freeTiles;
     }
 
 
@@ -293,32 +282,12 @@ public class Island {
         }
     }
 
-    //TODO: Secondary texture updates are obsolete
-    private void UpdateImage(Tile tile)
-    {
-        // Secondary Texture is to add edges to tiles
-        if(Arrays.asList(a_grass_left).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_left);
-        } else if(Arrays.asList(a_grass_right).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_right);
-        } else if(Arrays.asList(a_grass_r_end).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_left_upper_edge);
-        } else if(Arrays.asList(a_grass_l_end).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_right_upper_edge);
-        } else if(Arrays.asList(a_grass_top).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_top);
-        } else if(Arrays.asList(a_grass_top_right).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_top_right);
-        } else if(Arrays.asList(a_grass_top_left).contains(tile.code)){
-            tile.secondaryTextures.add(Asset.grass_top_left);
-        }
-    }
-
+    //TODO: Probably not the best way to add secondary textures?
     private void AddSecondaryTextures()
     {
-        for(int r = border-1; r <= chunkSize-border; r++)
+        for(int r = 1; r < chunkSize-1; r++)
         {
-            for(int c = border-1; c <= chunkSize-border; c++)
+            for(int c = 1; c < chunkSize-1; c++)
             {
                 if(chunk.tiles[r][c].type == tileType.Water)
                 {

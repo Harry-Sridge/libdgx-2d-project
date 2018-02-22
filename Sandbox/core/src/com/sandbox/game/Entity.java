@@ -23,6 +23,8 @@ public class Entity implements Comparable<Entity> {
     public Vector3 pos;
     public Texture texture;
 
+    public Inventory inventory;
+
     public float width;
     public float height;
 
@@ -54,7 +56,7 @@ public class Entity implements Comparable<Entity> {
 
     }
 
-    public void Interact()
+    public void Interact(Entity entity)
     {
 
     }

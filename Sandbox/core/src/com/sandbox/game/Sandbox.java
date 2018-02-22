@@ -79,6 +79,12 @@ public class Sandbox extends ApplicationAdapter {
             control.reset = false;
         }
 
+        if(control.inventory)
+        {
+            player.inventory.Print();
+            control.inventory = false;
+        }
+
 		player.update(control);
         camera.position.lerp(player.pos, 0.1f);
 		camera.update();

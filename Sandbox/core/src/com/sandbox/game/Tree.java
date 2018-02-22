@@ -25,8 +25,13 @@ public class Tree extends Entity{
     }
 
     @Override
-    public void Interact()
+    public void Interact(Entity entity)
     {
-        removed = true;
+        //check to see if the current entity has an inventory
+        if(entity.inventory != null)
+        {
+            entity.inventory.AddEntity(this);
+            removed = true;
+        }
     }
 }

@@ -28,6 +28,9 @@ public class Player extends Entity {
         this.pos = pos;
         texture = Asset.player;
         speed = 20f;
+
+        inventory = new Inventory();
+
         Reset(box2D, pos);
     }
 
@@ -81,7 +84,7 @@ public class Player extends Entity {
         //if interact key is pressed
         if(control.interact && interactEntities.size()>0)
         {
-            interactEntities.get(0).Interact();
+            interactEntities.get(0).Interact(this);
             control.interact = false;
         }
 

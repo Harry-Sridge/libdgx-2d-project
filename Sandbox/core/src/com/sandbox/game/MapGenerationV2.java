@@ -2,7 +2,7 @@ package com.sandbox.game;
 
 import java.util.Arrays;
 
-public class MapGen {
+public class MapGenerationV2 {
 	
 	private static final int GRASS = 0;
 	private static final int WATER = 1;

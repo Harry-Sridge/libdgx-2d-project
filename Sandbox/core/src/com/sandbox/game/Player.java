@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 import Box2D.*;
@@ -13,13 +13,15 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 
-    ArrayList<Entity> interactEntities;
     int health;
     int exp;
     String name;
 
+    private ArrayList<Entity> interactEntities;
+
     public Player(Vector3 pos, Box2DWorld box2D)
     {
+        //initialize entity
         type = entityType.Player;
         width = 5;
         height = 5;

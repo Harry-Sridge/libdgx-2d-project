@@ -12,7 +12,6 @@ import Box2D.Box2DWorld;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.sandbox.game.Enums.tileType;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Island {
@@ -69,7 +68,7 @@ public class Island {
         while (it.hasNext())
         {
             Entity e = it.next();
-            if(e.remove)
+            if(e.removed)
             {
                 e.RemoveBodies(box2D);
                 box2D.RemoveEntityFromMap(e);
@@ -227,14 +226,10 @@ public class Island {
             for(Tile tile : tiles)
             {
                 //there's no need to generate hit boxes for grass tiles.
-                if(!tile.passable())
+                if(!tile.isCollider())
                 {
                     if(!tile.isAllWater())
-                    {
-                        System.out.println("Tile [" + tile.row + ", " + tile.col + "] is a collider.");
-                        System.out.println(tile.code);
                         Box2DHelper.CreateBody(box2D.world, chunk.tileSize, chunk.tileSize, 0, 0, tile.pos, BodyDef.BodyType.StaticBody);
-                    }
                 }
             }
         }

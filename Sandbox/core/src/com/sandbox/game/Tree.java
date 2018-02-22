@@ -27,6 +27,6 @@ public class Tree extends Entity{
     @Override
     public void Interact()
     {
-        remove = true;
+        removed = true;
     }
 }

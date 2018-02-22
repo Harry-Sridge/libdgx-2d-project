@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 import com.badlogic.gdx.Gdx;

@@ -6,7 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
 
 import java.util.Collections;
 
@@ -16,6 +18,9 @@ public class Sandbox extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Control control;
 	private Box2DWorld box2D;
+
+	//Text?
+    private BitmapFont font;
 
 	private int displayW;
 	private int displayH;
@@ -29,6 +34,9 @@ public class Sandbox extends ApplicationAdapter {
 		batch = new SpriteBatch();
         box2D = new Box2DWorld();
 
+        font = new BitmapFont();
+        font.setColor(Color.FIREBRICK);
+
         //Set window
 		displayW = Gdx.graphics.getWidth();
 		displayH = Gdx.graphics.getHeight();
@@ -37,7 +45,7 @@ public class Sandbox extends ApplicationAdapter {
 		int w = (int)(displayW/(displayH/(displayH/Math.floor(displayH/160))));
 
 		camera = new OrthographicCamera(w,h);
-		camera.zoom = 0.5f;
+		camera.zoom = 1f;
 
 		//Set controller
 		control = new Control(displayW, displayH, camera);
@@ -46,12 +54,14 @@ public class Sandbox extends ApplicationAdapter {
         Asset.Load();
 
         //Initialize basic world objects
-        island = new Island(box2D, 100, 20);
+        island = new Island(box2D, 20, 5);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
 
         //Add entities to hash map for collisions
         box2D.PopulateEntityMap(island.entities);
+
+        System.out.println("Total tiles: " + island.chunk.tiles.length*island.chunk.tiles.length);
 	}
 
 	@Override
@@ -62,7 +72,7 @@ public class Sandbox extends ApplicationAdapter {
 		//Pre render
         if(control.reset)
         {
-            island = new Island(box2D, 100, 15);
+            island = new Island(box2D, 20, 5);
             player.Reset(box2D, island.GetPlayerSpawnPos());
             island.entities.add(player);
             box2D.PopulateEntityMap(island.entities);
@@ -78,7 +88,7 @@ public class Sandbox extends ApplicationAdapter {
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//Render
-		//TODO: maybe draw tiles differently from entities? Since they are static objects, there's no need to draw them every frame.
+		//TODO: maybe draw tiles differently from entities?
 		//TODO: Add a better draw function
 		batch.begin();
         // Draw all tiles in the chunk
@@ -97,6 +107,8 @@ public class Sandbox extends ApplicationAdapter {
         //Draw entities on island
         for(Entity e : island.entities)
             e.Draw(batch);
+
+        //font.draw(batch, "TEST", player.pos.x, player.pos.y+5);
 
 		batch.end();
 

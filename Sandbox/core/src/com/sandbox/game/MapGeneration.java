@@ -48,10 +48,10 @@ public class MapGeneration {
         //Manually add seeds here
         //We can think of a better way to add seeds
         seeds.add(map.tiles[centerRow][centerCol]);
-        seeds.add(map.tiles[centerRow][centerCol+20]);
-        seeds.add(map.tiles[centerRow][centerCol-20]);
-        seeds.add(map.tiles[centerRow+20][centerCol]);
-        seeds.add(map.tiles[centerRow-20][centerCol]);
+//        seeds.add(map.tiles[centerRow-5][centerCol+30]);
+//        seeds.add(map.tiles[centerRow][centerCol-15]);
+//        seeds.add(map.tiles[centerRow+40][centerCol]);
+//        seeds.add(map.tiles[centerRow-35][centerCol]);
 
         //Generate map using these seeds
         return(SmoothMap(map, seeds, iterations));
@@ -69,7 +69,7 @@ public class MapGeneration {
 
         for(int i = 0; i < iterations; i++)
         {
-            System.out.println("Iteration " + i);
+            //System.out.println("Iteration " + i);
             for(int j = 0; j < nextSeeds.size(); j++)
             {
                 //current seed
@@ -78,7 +78,7 @@ public class MapGeneration {
                 List<Tile> freeTiles = GetFreeTiles(seed.row, seed.col);
 
                 //Debug
-                System.out.println("Seed " + j + " pos: [" + seed.row + ", " + seed.col + "] Free tiles: " + freeTiles.size());
+                //System.out.println("Seed " + j + " pos: [" + seed.row + ", " + seed.col + "] Free tiles: " + freeTiles.size());
 
                 int spread = 0;
                 for(Tile t : freeTiles)
@@ -100,9 +100,9 @@ public class MapGeneration {
                 if(spread == 0)
                     tempSeeds.add(nextSeeds.get(j));
 
-                System.out.println("Spread from current seed: " + spread);
-                System.out.println("Total seeds: " + tempSeeds.size());
-                System.out.println();
+//                System.out.println("Spread from current seed: " + spread);
+//                System.out.println("Total seeds: " + tempSeeds.size());
+//                System.out.println();
             }
             //Update seed queue
             nextSeeds.clear();

@@ -17,11 +17,12 @@ public class Entity implements Comparable<Entity> {
 
     public int hashcode;
     public Body sensor;
-    public boolean remove;
+    public boolean removed;
 
     public entityType type;
     public Vector3 pos;
     public Texture texture;
+
     public float width;
     public float height;
 
@@ -34,11 +35,13 @@ public class Entity implements Comparable<Entity> {
         pos = new Vector3();
     }
 
+    //Draw a specific entity
     public void Draw(SpriteBatch batch)
     {
         batch.draw(texture, pos.x, pos.y, width, height);
     }
 
+    //Z sorting
     public int compareTo(Entity entity)
     {
         float tempY = entity.pos.y;

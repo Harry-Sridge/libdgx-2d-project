@@ -37,7 +37,7 @@ public class Sandbox extends ApplicationAdapter {
 		int w = (int)(displayW/(displayH/(displayH/Math.floor(displayH/160))));
 
 		camera = new OrthographicCamera(w,h);
-		camera.zoom = 1f;
+		camera.zoom = 0.5f;
 
 		//Set controller
 		control = new Control(displayW, displayH, camera);
@@ -46,7 +46,7 @@ public class Sandbox extends ApplicationAdapter {
         Asset.Load();
 
         //Initialize basic world objects
-        island = new Island(box2D, 60, 15);
+        island = new Island(box2D, 100, 20);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
 
@@ -62,8 +62,8 @@ public class Sandbox extends ApplicationAdapter {
 		//Pre render
         if(control.reset)
         {
-            island = new Island(box2D, 60, 15);
-            player.Reset(box2D, island.GetCentreTilePos());
+            island = new Island(box2D, 100, 15);
+            player.Reset(box2D, island.GetPlayerSpawnPos());
             island.entities.add(player);
             box2D.PopulateEntityMap(island.entities);
             control.reset = false;
@@ -78,8 +78,10 @@ public class Sandbox extends ApplicationAdapter {
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//Render
+		//TODO: maybe draw tiles differently from entities? Since they are static objects, there's no need to draw them every frame.
+		//TODO: Add a better draw function
 		batch.begin();
-        // Draw all tiles in the chunk / chunk rows
+        // Draw all tiles in the chunk
         for(Tile[] tiles : island.chunk.tiles)
         {
             for(Tile tile : tiles)

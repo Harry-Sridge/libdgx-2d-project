@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 /**
- * Created by Southridge on 2018-02-17.
+ * Created by zliu on 2018-02-17.
  */
 
 public class Tree extends Entity{

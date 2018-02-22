@@ -19,11 +19,10 @@ public class Island {
 
     //TODO: Continue generation until it reaches a set size
     private int chunkSize;
-    private int iterations;
 
     Tile centreTile;
     Chunk chunk;
-    MapGeneration mapGen;
+    private MapGeneration mapGen;
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -31,9 +30,8 @@ public class Island {
     public Island(Box2DWorld box2D, int chunkSize, int iterations)
     {
         this.chunkSize = chunkSize;
-        this.iterations = iterations;
 
-        //create new chunks
+        //create new empty chunk
         chunk = new Chunk(chunkSize, 8);
         mapGen = new MapGeneration(chunk, chunkSize, chunk.tileSize, iterations);
 
@@ -44,12 +42,15 @@ public class Island {
     //Regen
     public void Reset(Box2DWorld box2D)
     {
+        //clear entities and collision data
         entities.clear();
         box2D.Clear();
 
+        //Generate chunk
         chunk = mapGen.SetupTiles();
         centreTile = mapGen.GetCentreTile();
 
+        //Post generation procedures
         AddSecondaryTextures();
         AssignTileCodes();
         GenerateColliders(box2D);

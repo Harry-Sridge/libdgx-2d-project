@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by zliu on 2018-02-16.
+ * Created by Southridge on 2018-02-16.
  */
 
 public class Chunk {

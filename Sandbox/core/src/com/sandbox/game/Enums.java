@@ -13,6 +13,11 @@ public class Enums {
 
     public enum entityType
     {
-        Player, Tree, House, Slime
+        Player, Tree, House, Bird
+    }
+
+    public enum entityState
+    {
+        None, Idle, Feeding, Walking, Flying, Hovering, Landing
     }
 }

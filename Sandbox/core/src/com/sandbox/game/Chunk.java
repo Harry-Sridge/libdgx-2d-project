@@ -1,5 +1,7 @@
 package com.sandbox.game;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * Created by zliu on 2018-02-16.
  */
@@ -16,6 +18,14 @@ public class Chunk {
         this.size = size;
         this.tileSize = tileSize;
         tiles = new Tile[size][size];
+    }
+
+    public Tile GetTile(Vector2 pos)
+    {
+        int row = (int) ((pos.y * tileSize/2) / size);
+        int col = (int) ((pos.x * tileSize/2) / size);
+
+        return tiles[row][col];
     }
 
     public String GetTileCode(int r, int c)

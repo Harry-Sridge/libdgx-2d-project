@@ -226,7 +226,7 @@ public class Island {
             for(Tile tile : tiles)
             {
                 //there's no need to generate hit boxes for grass tiles.
-                if(!tile.isCollider())
+                if(!tile.isPassable())
                 {
                     if(!tile.isAllWater())
                         Box2DHelper.CreateBody(box2D.world, chunk.tileSize, chunk.tileSize, 0, 0, tile.pos, BodyDef.BodyType.StaticBody);

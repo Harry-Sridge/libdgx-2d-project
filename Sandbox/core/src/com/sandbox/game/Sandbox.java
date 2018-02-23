@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Collections;
 
@@ -27,6 +29,11 @@ public class Sandbox extends ApplicationAdapter {
 
 	Island island;
 	Player player;
+
+	int chunkSize = 20;
+	int iterations = 5;
+
+	float time;
 
 	@Override
 	public void create () {
@@ -54,9 +61,10 @@ public class Sandbox extends ApplicationAdapter {
         Asset.Load();
 
         //Initialize basic world objects
-        island = new Island(box2D, 20, 5);
+        island = new Island(box2D, chunkSize, iterations);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
+        island.entities.add(new Bird(new Vector3(10,10,0), box2D, Enums.entityState.Flying));
 
         //Add entities to hash map for collisions
         box2D.PopulateEntityMap(island.entities);
@@ -71,13 +79,7 @@ public class Sandbox extends ApplicationAdapter {
 
 		//Pre render
         if(control.reset)
-        {
-            island = new Island(box2D, 20, 5);
-            player.Reset(box2D, island.GetPlayerSpawnPos());
-            island.entities.add(player);
-            box2D.PopulateEntityMap(island.entities);
-            control.reset = false;
-        }
+            ResetGame();
 
         if(control.inventory)
         {
@@ -86,6 +88,14 @@ public class Sandbox extends ApplicationAdapter {
         }
 
 		player.update(control);
+
+        for(Entity e: island.entities)
+        {
+            e.Tick(Gdx.graphics.getDeltaTime());
+            e.currentTile = island.chunk.GetTile(e.body.getPosition());
+            e.Tick(Gdx.graphics.getDeltaTime(), island.chunk);
+        }
+
         camera.position.lerp(player.pos, 0.1f);
 		camera.update();
         Collections.sort(island.entities);
@@ -122,7 +132,19 @@ public class Sandbox extends ApplicationAdapter {
 		box2D.tick(camera, control);
 		island.ClearRemovedEntities(box2D);
 	}
-	
+
+	private void ResetGame()
+    {
+        island = new Island(box2D, chunkSize, iterations);
+        player.Reset(box2D, island.GetPlayerSpawnPos());
+        island.entities.add(player);
+
+        for(int i = 0; i < MathUtils.random(20); i++)
+            island.entities.add(new Bird(new Vector3(MathUtils.random(100),MathUtils.random(100),0), box2D, Enums.entityState.Flying));
+
+        box2D.PopulateEntityMap(island.entities);
+        control.reset = false;
+    }
 	@Override
 	public void dispose () {
 		batch.dispose();

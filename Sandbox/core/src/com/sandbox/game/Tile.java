@@ -65,7 +65,7 @@ public class Tile extends Entity{
         return (code.equals("000000000"));
     }
 
-    public boolean isCollider() {
+    public boolean isPassable() {
         return (!isWater() && !isCliff());
     }
 }

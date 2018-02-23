@@ -1,7 +1,7 @@
 package entities;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 import Box2D.Box2DWorld;
@@ -21,6 +21,7 @@ public class Entity implements Comparable<Entity> {
     public int hashcode;
     public Body sensor;
     public boolean removed;
+
     public entityType type;
     public Vector3 pos;
     public Texture texture;

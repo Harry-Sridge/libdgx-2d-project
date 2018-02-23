@@ -28,7 +28,7 @@ public class Tile extends Entity{
 
     boolean occupied;
 
-    public Tile(float row, float col, int size, tileType type, Texture texture)
+    public Tile(int row, int col, int size, tileType type, Texture texture)
     {
         super();
 
@@ -39,8 +39,8 @@ public class Tile extends Entity{
         this.type = type;
         this.texture = texture;
 
-        this.col = (int)row;
-        this.row = (int)col;
+        this.col = col;
+        this.row = row;
     }
 
     public String DebugTile()
@@ -67,10 +67,5 @@ public class Tile extends Entity{
 
     public boolean isPassable() {
         return (!isWater() && !isCliff());
-    }
-
-    public boolean isOccupied()
-    {
-        return occupied;
     }
 }

@@ -17,10 +17,6 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 
-    private int health;
-    private int exp;
-    private String name;
-
     private ArrayList<Entity> interactEntities;
 
     public Player(Vector3 pos, Box2DWorld box2D)
@@ -32,7 +28,6 @@ public class Player extends Entity {
         this.pos = pos;
         texture = Asset.player;
         speed = 20f;
-
         inventory = new Inventory();
 
         Reset(box2D, pos);

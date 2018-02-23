@@ -20,21 +20,19 @@ public class Island {
 
     //TODO: Continue generation until it reaches a set size
     private int chunkSize;
-
-    Tile centreTile;
-    Chunk chunk;
+    public  Tile centreTile;
+    public Chunk chunk;
     private MapGeneration mapGen;
 
-    ArrayList<Entity> entities = new ArrayList<Entity>();
+    public ArrayList<Entity> entities = new ArrayList<Entity>();
 
-    //Constructor
     public Island(Box2DWorld box2D, int chunkSize, int iterations)
     {
         this.chunkSize = chunkSize;
 
         //create new empty chunk
         chunk = new Chunk(chunkSize, 8);
-        mapGen = new MapGeneration(chunk, chunkSize, chunk.tileSize, iterations);
+        mapGen = new MapGeneration(chunk, chunkSize, 8, iterations);
 
         //initialize island
         Reset(box2D);
@@ -82,43 +80,6 @@ public class Island {
     //TODO: Maybe add a more elaborate way to populate the island?
     private void AddEntities(Box2DWorld box2D)
     {
-        // ADD TREES
-        for(Tile[] tiles: chunk.tiles)
-        {
-            for(Tile tile : tiles)
-            {
-                if(tile.isGrass())
-                {
-                    if(MathUtils.random(100) > 90)
-                    {
-                        if(!tile.occupied)
-                        {
-                            entities.add(new Tree(tile.pos, box2D));
-                            tile.occupied = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        // ADD HOUSES
-        for(Tile[] tiles : chunk.tiles)
-        {
-            for(Tile tile : tiles)
-            {
-                if(tile.isGrass())
-                {
-                    if(MathUtils.random(100) > 95)
-                    {
-                        if(!tile.occupied)
-                        {
-                            entities.add(new House(tile.pos, box2D));
-                            tile.occupied = true;
-                        }
-                    }
-                }
-            }
-        }
     }
 
     //TODO: Probably not the best way to add secondary textures?

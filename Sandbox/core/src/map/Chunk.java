@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 //Stores an array of tiles
 public class Chunk {
 
-    int size;
+    private int size;
     int tileSize;
     public Tile[][] tiles;
 
@@ -20,6 +20,7 @@ public class Chunk {
         tiles = new Tile[size][size];
     }
 
+    //I do not know why this is a thing
     public Tile GetTile(Vector2 pos)
     {
         int row = (int) ((pos.y * tileSize/2) / size);

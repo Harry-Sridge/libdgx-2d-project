@@ -6,11 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 
 import java.util.Collections;
 
@@ -21,28 +17,17 @@ public class Sandbox extends ApplicationAdapter {
 	private Control control;
 	private Box2DWorld box2D;
 
-	//Text?
-    private BitmapFont font;
-
 	private int displayW;
 	private int displayH;
 
 	Island island;
 	Player player;
 
-	int chunkSize = 20;
-	int iterations = 5;
-
-	float time;
-
 	@Override
 	public void create () {
 
 		batch = new SpriteBatch();
         box2D = new Box2DWorld();
-
-        font = new BitmapFont();
-        font.setColor(Color.FIREBRICK);
 
         //Set window
 		displayW = Gdx.graphics.getWidth();
@@ -61,15 +46,12 @@ public class Sandbox extends ApplicationAdapter {
         Asset.Load();
 
         //Initialize basic world objects
-        island = new Island(box2D, chunkSize, iterations);
+        island = new Island(box2D, 60, 15);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
-        island.entities.add(new Bird(new Vector3(10,10,0), box2D, Enums.entityState.Flying));
 
         //Add entities to hash map for collisions
         box2D.PopulateEntityMap(island.entities);
-
-        System.out.println("Total tiles: " + island.chunk.tiles.length*island.chunk.tiles.length);
 	}
 
 	@Override
@@ -79,23 +61,15 @@ public class Sandbox extends ApplicationAdapter {
 
 		//Pre render
         if(control.reset)
-            ResetGame();
-
-        if(control.inventory)
         {
-            player.inventory.Print();
-            control.inventory = false;
+            island = new Island(box2D, 60, 15);
+            player.Reset(box2D, island.GetCentreTilePos());
+            island.entities.add(player);
+            box2D.PopulateEntityMap(island.entities);
+            control.reset = false;
         }
 
 		player.update(control);
-
-        for(Entity e: island.entities)
-        {
-            e.Tick(Gdx.graphics.getDeltaTime());
-            e.currentTile = island.chunk.GetTile(e.body.getPosition());
-            e.Tick(Gdx.graphics.getDeltaTime(), island.chunk);
-        }
-
         camera.position.lerp(player.pos, 0.1f);
 		camera.update();
         Collections.sort(island.entities);
@@ -104,10 +78,8 @@ public class Sandbox extends ApplicationAdapter {
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//Render
-		//TODO: maybe draw tiles differently from entities?
-		//TODO: Add a better draw function
 		batch.begin();
-        // Draw all tiles in the chunk
+        // Draw all tiles in the chunk / chunk rows
         for(Tile[] tiles : island.chunk.tiles)
         {
             for(Tile tile : tiles)
@@ -124,27 +96,13 @@ public class Sandbox extends ApplicationAdapter {
         for(Entity e : island.entities)
             e.Draw(batch);
 
-        //font.draw(batch, "TEST", player.pos.x, player.pos.y+5);
-
 		batch.end();
 
 		//Post render
 		box2D.tick(camera, control);
 		island.ClearRemovedEntities(box2D);
 	}
-
-	private void ResetGame()
-    {
-        island = new Island(box2D, chunkSize, iterations);
-        player.Reset(box2D, island.GetPlayerSpawnPos());
-        island.entities.add(player);
-
-        for(int i = 0; i < MathUtils.random(20); i++)
-            island.entities.add(new Bird(new Vector3(MathUtils.random(100),MathUtils.random(100),0), box2D, Enums.entityState.Flying));
-
-        box2D.PopulateEntityMap(island.entities);
-        control.reset = false;
-    }
+	
 	@Override
 	public void dispose () {
 		batch.dispose();

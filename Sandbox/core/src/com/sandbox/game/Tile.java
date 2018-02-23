@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by zliu on 2018-02-16.
+ * Created by Southridge on 2018-02-16.
  */
 
 import com.sandbox.game.Enums.tileType;
@@ -13,37 +13,29 @@ import java.util.List;
 
 public class Tile extends Entity{
 
-    //tile size
     public int size;
-
-    //tile position in array
     public int row;
     public int col;
-
-    //general tile information
-    public String code = "";
+    public String code;
     public Texture texture;
     public List<Texture> secondaryTextures = new ArrayList<Texture>();
     public tileType type;
-
     public boolean occupied;
 
-    public Tile(float row, float col, int size, tileType type, Texture texture)
+    public Tile(float x, float y, int size, tileType type, Texture texture)
     {
         super();
-
-        pos.x = row*size;
-        pos.y = col*size;
-
+        pos.x = x*size;
+        pos.y = y*size;
         this.size = size;
-        this.type = type;
         this.texture = texture;
-
-        this.col = (int)row;
-        this.row = (int)col;
+        this.col = (int)x;
+        this.row = (int)y;
+        this.type = type;
+        this.code = "";
     }
 
-    public String DebugTile()
+    public String details()
     {
         return "x: " + pos.x + " y: " + pos.y + " row: " + row + " col: " + col + " code: " + code + " type: " + type.toString();
     }
@@ -65,7 +57,7 @@ public class Tile extends Entity{
         return (code.equals("000000000"));
     }
 
-    public boolean isPassable() {
+    public boolean passable() {
         return (!isWater() && !isCliff());
     }
 }

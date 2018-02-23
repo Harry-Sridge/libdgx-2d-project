@@ -1,13 +1,11 @@
 package com.sandbox.game;
 
 /**
- * Created by zliu on 2018-02-16.
+ * Created by Southridge on 2018-02-16.
  */
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Asset {
 
@@ -27,11 +25,6 @@ public class Asset {
 
     // Player
     static Texture player;
-
-    //Creatures
-    static Texture birdWalk, birdFly, birdPeck, birdShadow;
-    static TextureRegion[] birdWalkFrames, birdFlyFrames, birdPeckFrames;
-    static Animation<TextureRegion> birdWalkAnim, birdPeckAnim, birdFlyAnim;
 
     public static void Load(){
         grass_01 = new Texture("8x8/grass/grass_01.png");
@@ -65,22 +58,7 @@ public class Asset {
 
         tree = new Texture("8x8/tree.png");
         house = new Texture("8x8/house.png");
-
         player = new Texture("8x8/hero.png");
-
-        birdPeck = new Texture("8x8/creatures/bird_peck.png");
-        birdWalk = new Texture("8x8/creatures/bird_walk.png");
-        birdFly = new Texture("8x8/creatures/bird_fly.png");
-        birdShadow = new Texture("8x8/creatures/bird_shadow.png");
-
-        birdWalkFrames = TextureRegion.split(birdWalk, 10, 9)[0];
-        birdPeckFrames = TextureRegion.split(birdPeck, 10, 9)[0];
-        birdFlyFrames = TextureRegion.split(birdFly, 10, 9)[0];
-
-        birdWalkAnim = new Animation<TextureRegion>(.1f, birdWalkFrames);
-        birdPeckAnim = new Animation<TextureRegion>(.1f, birdPeckFrames);
-        birdFlyAnim = new Animation<TextureRegion>(.1f, birdFlyFrames);
-
     }
 
     public void dispose(){

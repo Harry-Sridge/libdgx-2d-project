@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by zliu on 2018-02-16.
+ * Created by Southridge on 2018-02-16.
  */
 
 import Box2D.*;
@@ -13,41 +13,22 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 
-<<<<<<< HEAD
     ArrayList<Entity> interactEntities;
     private int health;
     private int exp;
     private float walkSpeed; 
     private String name;
     private boolean dead;
-=======
-    int health;
-    int exp;
-    String name;
->>>>>>> 05f4a680e6ae0649544141c7ce1ed5e6b8527e55
-
-    private ArrayList<Entity> interactEntities;
 
     public Player(Vector3 pos, Box2DWorld box2D)
     {
-<<<<<<< HEAD
     	dead = false;
-=======
-        //initialize entity
->>>>>>> 05f4a680e6ae0649544141c7ce1ed5e6b8527e55
         type = entityType.Player;
         width = 5;
         height = 5;
         this.pos = pos;
         texture = Asset.player;
-<<<<<<< HEAD
         walkSpeed = 20f;
-=======
-        speed = 20f;
-
-        inventory = new Inventory();
-
->>>>>>> 05f4a680e6ae0649544141c7ce1ed5e6b8527e55
         Reset(box2D, pos);
     }
 
@@ -101,7 +82,7 @@ public class Player extends Entity {
         //if interact key is pressed
         if(control.interact && interactEntities.size()>0)
         {
-            interactEntities.get(0).Interact(this);
+            interactEntities.get(0).Interact();
             control.interact = false;
         }
 

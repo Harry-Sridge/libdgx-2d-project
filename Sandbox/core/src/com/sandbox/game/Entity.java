@@ -18,15 +18,20 @@ public class Entity implements Comparable<Entity> {
     public int hashcode;
     public Body sensor;
 <<<<<<< HEAD
+<<<<<<< HEAD
     public boolean remove;
 =======
     public boolean removed;
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
+=======
+    public boolean remove;
+>>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
 
     public entityType type;
     public Vector3 pos;
     public Texture texture;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     public Inventory inventory;
@@ -35,6 +40,8 @@ public class Entity implements Comparable<Entity> {
     public float height;
 
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
+=======
+>>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
     float xDir = 0;
     float yDir = 0;
     float speed = 0;

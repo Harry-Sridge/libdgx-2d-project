@@ -395,10 +395,14 @@ public class Island {
             {
                 //there's no need to generate hit boxes for grass tiles.
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if(!tile.passable())
 =======
                 if(!tile.isCollider())
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
+=======
+                if(!tile.passable())
+>>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
                 {
                     if(!tile.isAllWater())
                     {

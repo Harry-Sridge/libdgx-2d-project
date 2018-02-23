@@ -18,6 +18,7 @@ public class Chunk {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Tile GetTile(int r, int c)
     {
 <<<<<<< HEAD
@@ -26,6 +27,11 @@ public class Chunk {
 
         return tiles[1][1];
 =======
+        return tiles[r][c];
+>>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+    public Tile GetTile(int r, int c)
+    {
         return tiles[r][c];
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
     }

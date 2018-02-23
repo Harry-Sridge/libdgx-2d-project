@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 import Box2D.*;
@@ -13,22 +13,24 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 
-    ArrayList<Entity> interactEntities;
-    private int health;
-    private int exp;
-    private float walkSpeed; 
-    private String name;
-    private boolean dead;
+    int health;
+    int exp;
+    String name;
+
+    private ArrayList<Entity> interactEntities;
 
     public Player(Vector3 pos, Box2DWorld box2D)
     {
-    	dead = false;
+        //initialize entity
         type = entityType.Player;
         width = 5;
         height = 5;
         this.pos = pos;
         texture = Asset.player;
-        walkSpeed = 20f;
+        speed = 20f;
+
+        inventory = new Inventory();
+
         Reset(box2D, pos);
     }
 
@@ -75,22 +77,18 @@ public class Player extends Entity {
         	yDir = (float) - Math.sqrt(0.5);
         }
 
-        body.setLinearVelocity(xDir * walkSpeed, yDir * walkSpeed);
+        body.setLinearVelocity(xDir*speed, yDir*speed);
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - height/4;
 
         //if interact key is pressed
         if(control.interact && interactEntities.size()>0)
         {
-            interactEntities.get(0).Interact();
+            interactEntities.get(0).Interact(this);
             control.interact = false;
         }
 
         control.interact = false;
-        
-        if(health <= 0) {
-        	dead = true;
-        }
     }
 
     @Override
@@ -101,65 +99,4 @@ public class Player extends Entity {
         else
             interactEntities.remove(e);
     }
-    
-    /*
-     * Now we add setters and getters for the member values.
-     */
-    
-    public int getHealth() {
-    	return health;
-    }
-    
-    public void setHealth(int x) {
-    	health = x;
-    }
-    
-    public void addHealth(int x) {
-    	health += x;
-    }
-    
-    public void subtractHealth(int x) {
-    	health -= x;
-    }
-    
-    public int getExp() {
-    	return exp;
-    }
-    
-    public void setExp(int x) {
-    	exp = x;
-    }
-    
-    public void addExp(int x) {
-    	exp += x;
-    }
-    
-    public void subtractExp(int x) {
-    	exp -= x;
-    }
-    
-    public float getSpeed() {
-    	return walkSpeed;
-    }
-    
-    public void setSpeed(float x) {
-    	walkSpeed = x;
-    }
-    
-    public void addSpeed(float x) {
-    	walkSpeed += x;
-    }
-    
-    public void subtractSpeed(float x) {
-    	walkSpeed -= x;
-    }
-    
-    public void setAliveState(boolean x) {
-    	dead = x;
-    }
-    
-    public boolean getAliveState() {
-    	return dead;
-    }
-    
 }

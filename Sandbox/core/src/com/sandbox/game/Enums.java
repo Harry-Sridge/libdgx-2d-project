@@ -1,7 +1,7 @@
 package com.sandbox.game;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 public class Enums {
@@ -13,6 +13,11 @@ public class Enums {
 
     public enum entityType
     {
-        Player, Tree, House, Slime
+        Player, Tree, House, Bird
+    }
+
+    public enum entityState
+    {
+        None, Idle, Feeding, Walking, Flying, Hovering, Landing
     }
 }

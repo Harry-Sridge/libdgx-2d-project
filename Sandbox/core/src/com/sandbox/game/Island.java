@@ -4,10 +4,7 @@ package com.sandbox.game;
  * Created by zliu on 2018-02-16.
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import Box2D.Box2DHelper;
 import Box2D.Box2DWorld;
@@ -15,93 +12,53 @@ import Box2D.Box2DWorld;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.sandbox.game.Enums.tileType;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Island {
 
-    //TODO: Maybe find a better way to generate an island
+    //TODO: Continue generation until it reaches a set size
     private int chunkSize;
-    private int iterations;
 
     Tile centreTile;
-
     Chunk chunk;
-    Chunk smoothedChunk;
+    private MapGeneration mapGen;
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
 
-    //for mapping sprites
-    //Obsolete for now
-    private String[] a_grass_left = {"001001001", "001001000", "000001001"};
-    /*
-    0 0 1   0 0 1   0 0 0
-    0 0 1   0 0 1   0 0 1
-    0 0 1   0 0 0   0 0 1
-     */
-    private String[] a_grass_right = {"100100100","100100000","000100100"};
-    /*
-    1 0 0   1 0 0   0 0 0
-    1 0 0   1 0 0   1 0 0
-    1 0 0   0 0 0   1 0 0
-     */
-    private String[] a_grass_r_end = {"100000000"};
-    /*
-    1 0 0
-    0 0 0
-    0 0 0
-     */
-    private String[] a_grass_l_end = {"001000000"};
-    /*
-    0 0 1
-    0 0 0
-    0 0 0
-     */
-    private String[] a_grass_top = {"000000111", "000000011","000000110"};
-    /*
-    0 0 0   0 0 0   0 0 0
-    0 0 0   0 0 0   0 0 0
-    1 1 1   0 1 1   1 1 0
-     */
-    private String[] a_grass_top_right = {"000000100"};
-    /*
-    0 0 0
-    0 0 0
-    1 0 0
-     */
-    private String[] a_grass_top_left = {"000000001"};
-    /*
-    0 0 0
-    0 0 0
-    0 0 1
-     */
-
+    //Constructor
     public Island(Box2DWorld box2D, int chunkSize, int iterations)
     {
         this.chunkSize = chunkSize;
-        this.iterations = iterations;
 
-        //create new chunks
+        //create new empty chunk
         chunk = new Chunk(chunkSize, 8);
-        smoothedChunk = new Chunk(chunkSize, 8);
+        mapGen = new MapGeneration(chunk, chunkSize, chunk.tileSize, iterations);
 
         //initialize island
         Reset(box2D);
     }
 
+    //Regen
     public void Reset(Box2DWorld box2D)
     {
+        //clear entities and collision data
         entities.clear();
         box2D.Clear();
-        SetupTiles();
+
+        //Generate chunk
+        chunk = mapGen.SetupTiles();
+        centreTile = mapGen.GetCentreTile();
+
+        //Post generation procedures
         AddSecondaryTextures();
         AssignTileCodes();
         GenerateColliders(box2D);
         AddEntities(box2D);
     }
 
-    public Vector3 GetCentreTilePos()
+    public Vector3 GetPlayerSpawnPos()
     {
+        //currently is in the middle of chunk
         return centreTile.pos;
     }
 
@@ -111,7 +68,7 @@ public class Island {
         while (it.hasNext())
         {
             Entity e = it.next();
-            if(e.remove)
+            if(e.removed)
             {
                 e.RemoveBodies(box2D);
                 box2D.RemoveEntityFromMap(e);
@@ -119,131 +76,6 @@ public class Island {
             }
         }
     }
-    
-    private void SetupTiles()
-    {
-        //get reference positions
-        int centerRow = chunkSize / 2;
-        int centerCol = chunkSize / 2;
-
-        // Loop through the chunk and add tiles
-        for(int row = 0; row < chunkSize; row ++)
-        {
-            for(int col = 0; col < chunkSize; col ++)
-            {
-                //Water - 0
-                //Grass - 1
-                //default tile is water
-                Tile tile = new Tile(col, row, chunk.tileSize, tileType.Water, GetRandomWaterTexture());
-                chunk.tiles[row][col] = tile;
-            }
-        }
-
-        //Store initial seeds
-        List<Tile> seeds = new ArrayList<Tile>();
-
-        //Manually add seeds here
-        //You can think of a better way to add seeds
-        Tile seed = new Tile(centerRow, centerCol, chunk.tileSize, tileType.Grass, GetRandomGrassTexture());
-        chunk.tiles[centerRow][centerCol] = seed;
-        seeds.add(seed);
-
-        SmoothMap(chunk, seeds, iterations);
-
-        //Set centre tile for camera positioning
-        centreTile = chunk.GetTile(centerRow, centerCol);
-    }
-
-    //TODO: SmoothMap() still causes diagonal anomalies, maybe write into a fresh 2D array?
-    private void SmoothMap (Chunk chunk, List<Tile> seeds, int iterations)
-    {
-        //Store the newest seeds (the ones that had just been generated)
-        //to avoid repeatedly checking older tiles
-        List<Tile> nextSeeds = new ArrayList<Tile>();
-        List<Tile> tempSeeds = new ArrayList<Tile>();
-        //Add first seed to list
-        for(Tile t : seeds)
-            nextSeeds.add(t);
-
-        for(int i = 0; i < iterations; i++)
-        {
-            System.out.println("Iteration " + i);
-            for(int j = 0; j < nextSeeds.size(); j++)
-            {
-                //current seed
-                Tile seed = nextSeeds.get(j);
-                //get max possible spread from current seed
-                List<Tile> freeTiles = GetFreeTiles(seed.row, seed.col);
-
-                //Debug
-                System.out.println("Seed " + j + " pos: [" + seed.row + ", " + seed.col + "] Free tiles: " + freeTiles.size());
-
-                int spread = 0;
-                for(Tile t : freeTiles)
-                {
-                    //Each free water tile surrounding the current seed tile
-                    //will have a 50% of becoming a grass tile.
-                    if(Math.random() > 0.5f)
-                    {
-                        t.type = tileType.Grass;
-                        t.texture = GetRandomGrassTexture();
-                        chunk.tiles[t.row][t.col] = t;
-                        //the new grass tile is then will become next batch of seeds.
-                        tempSeeds.add(t);
-                        spread++;
-                    }
-
-                }
-                System.out.println("Spread from current seed: " + spread);
-                System.out.println("Total seeds: " + tempSeeds.size());
-                System.out.println();
-            }
-            //Update seed queue
-            nextSeeds.clear();
-            for(Tile t : tempSeeds)
-                nextSeeds.add(t);
-            tempSeeds.clear();
-        }
-    }
-
-    private List<Tile> GetFreeTiles(int r, int c)
-    {
-        int[] adjacentRows = {-1, 0, 1};
-        int[] adjacentCols = {-1, 0, 1};
-        List<Tile> freeTiles = new ArrayList<Tile>();
-
-        //check adjacent row and column separately; we do not want seeds to spread diagonally.
-        //first check up and down
-        //are the tiles above and below free?
-        for(int row : adjacentRows)
-        {
-            if(r+row >= 0)
-            {
-                if(r+row < chunkSize)
-                {
-                    if(chunk.tiles[r+row][c].type == tileType.Water)
-                        freeTiles.add(chunk.tiles[r+row][c]);
-                }
-            }
-        }
-
-        //Check left and right
-        //are the tiles on both sides free?
-        for(int col : adjacentCols)
-        {
-            if(c+col >= 0)
-            {
-                if(c+col < chunkSize)
-                {
-                    if(chunk.tiles[r][c+col].type == tileType.Water)
-                        freeTiles.add(chunk.tiles[r][c+col]);
-                }
-            }
-        }
-
-        return freeTiles;
-    }
-
 
     //TODO: Maybe add a more elaborate way to populate the island?
     private void AddEntities(Box2DWorld box2D)
@@ -394,72 +226,14 @@ public class Island {
             for(Tile tile : tiles)
             {
                 //there's no need to generate hit boxes for grass tiles.
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if(!tile.passable())
-=======
-                if(!tile.isCollider())
->>>>>>> parent of 05f4a68... Implemented basic npc logic
-=======
-                if(!tile.passable())
->>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
-=======
-                if(!tile.isCollider())
->>>>>>> parent of 05f4a68... Implemented basic npc logic
+                if(!tile.isPassable())
                 {
                     if(!tile.isAllWater())
-                    {
-                        System.out.println("Tile [" + tile.row + ", " + tile.col + "] is a collider.");
-                        System.out.println(tile.code);
                         Box2DHelper.CreateBody(box2D.world, chunk.tileSize, chunk.tileSize, 0, 0, tile.pos, BodyDef.BodyType.StaticBody);
-                    }
                 }
             }
         }
         System.out.println();
-    }
-
-    private Texture GetRandomGrassTexture()
-    {
-        Texture grass;
-
-        int tile = MathUtils.random(20);
-        switch (tile) {
-            case 1:  grass = Asset.grass_01;
-                break;
-            case 2:  grass = Asset.grass_02;
-                break;
-            case 3:  grass = Asset.grass_03;
-                break;
-            case 4:  grass = Asset.grass_04;
-                break;
-            default: grass = Asset.grass_01;
-                break;
-        }
-
-        return grass;
-    }
-
-    private Texture GetRandomWaterTexture()
-    {
-        Texture water;
-
-        int tile = MathUtils.random(20);
-        switch (tile) {
-            case 1:  water = Asset.water_01;
-                break;
-            case 2:  water = Asset.water_02;
-                break;
-            case 3:  water = Asset.water_03;
-                break;
-            case 4:  water = Asset.water_04;
-                break;
-            default: water = Asset.water_01;
-                break;
-        }
-
-        return water;
     }
 
     private void AssignTileCodes()

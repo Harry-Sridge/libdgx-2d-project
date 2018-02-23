@@ -19,6 +19,7 @@ public class Chunk {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Tile GetTile(int r, int c)
     {
 <<<<<<< HEAD
@@ -36,6 +37,8 @@ public class Chunk {
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
     }
 
+=======
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
 =======
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
     public String GetTileCode(int r, int c)

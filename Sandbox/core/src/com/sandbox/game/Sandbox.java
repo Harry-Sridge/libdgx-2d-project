@@ -11,9 +11,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 <<<<<<< HEAD
 =======
 import com.badlogic.gdx.graphics.Color;
+<<<<<<< HEAD
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
 =======
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
 
 import java.util.Collections;
 
@@ -55,6 +58,7 @@ public class Sandbox extends ApplicationAdapter {
         //Initialize basic world objects
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         island = new Island(box2D, 60, 15);
 =======
         island = new Island(box2D, 20, 5);
@@ -62,6 +66,9 @@ public class Sandbox extends ApplicationAdapter {
 =======
         island = new Island(box2D, 60, 15);
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+        island = new Island(box2D, 20, 5);
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
 
@@ -78,11 +85,23 @@ public class Sandbox extends ApplicationAdapter {
         if(control.reset)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         {
             island = new Island(box2D, 20, 5);
             player.Reset(box2D, island.GetPlayerSpawnPos());
 =======
+=======
+        {
+            island = new Island(box2D, 20, 5);
+            player.Reset(box2D, island.GetPlayerSpawnPos());
+            island.entities.add(player);
+            box2D.PopulateEntityMap(island.entities);
+            control.reset = false;
+        }
+
+        if(control.inventory)
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
         {
             island = new Island(box2D, 60, 15);
             player.Reset(box2D, island.GetCentreTilePos());
@@ -92,6 +111,7 @@ public class Sandbox extends ApplicationAdapter {
             control.reset = false;
         }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         if(control.inventory)
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
@@ -105,6 +125,8 @@ public class Sandbox extends ApplicationAdapter {
 
 =======
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
 		player.update(control);
         camera.position.lerp(player.pos, 0.1f);
 		camera.update();
@@ -141,6 +163,7 @@ public class Sandbox extends ApplicationAdapter {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	private void ResetGame()
     {
@@ -165,6 +188,9 @@ public class Sandbox extends ApplicationAdapter {
 =======
 	
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+	
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
 	@Override
 	public void dispose () {
 		batch.dispose();

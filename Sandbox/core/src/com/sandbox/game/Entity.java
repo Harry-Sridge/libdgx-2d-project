@@ -22,10 +22,13 @@ public class Entity implements Comparable<Entity> {
     public boolean remove;
 =======
     public boolean removed;
+<<<<<<< HEAD
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
 =======
     public boolean remove;
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
 
     public entityType type;
     public Vector3 pos;
@@ -39,9 +42,12 @@ public class Entity implements Comparable<Entity> {
     public float width;
     public float height;
 
+<<<<<<< HEAD
 >>>>>>> parent of 05f4a68... Implemented basic npc logic
 =======
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
     float xDir = 0;
     float yDir = 0;
     float speed = 0;

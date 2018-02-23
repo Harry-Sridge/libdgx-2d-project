@@ -59,6 +59,7 @@ public class Tile extends Entity{
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public boolean passable() {
 =======
     public boolean isCollider() {
@@ -66,6 +67,9 @@ public class Tile extends Entity{
 =======
     public boolean passable() {
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
+=======
+    public boolean isCollider() {
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
         return (!isWater() && !isCliff());
     }
 }

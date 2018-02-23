@@ -1,6 +1,10 @@
 package com.sandbox.game;
 
 import Box2D.Box2DWorld;
+import entities.Entity;
+import entities.Player;
+import map.Island;
+import map.Tile;
 import redundant.Bird;
 
 import com.badlogic.gdx.ApplicationAdapter;

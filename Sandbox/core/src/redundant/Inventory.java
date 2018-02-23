@@ -2,7 +2,7 @@ package redundant;
 
 import java.util.HashMap;
 
-import com.sandbox.game.Entity;
+import entities.Entity;
 
 /**
  * Created by zliu on 2018-02-22.

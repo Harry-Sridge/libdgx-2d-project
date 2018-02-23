@@ -1,10 +1,12 @@
-package com.sandbox.game;
+package entities;
 
 /**
  * Created by zliu on 2018-02-16.
  */
 
 import Box2D.*;
+import com.sandbox.game.Asset;
+import com.sandbox.game.Control;
 import redundant.Inventory;
 
 import com.badlogic.gdx.math.Vector3;

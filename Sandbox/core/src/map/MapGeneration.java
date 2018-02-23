@@ -1,7 +1,9 @@
-package com.sandbox.game;
+package map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.sandbox.game.Asset;
+import com.sandbox.game.Enums;
 
 import java.util.ArrayList;
 import java.util.List;

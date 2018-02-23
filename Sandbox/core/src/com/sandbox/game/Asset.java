@@ -12,26 +12,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Asset {
 
     // TILES
-    static Texture grass_01, grass_02, grass_03, grass_04;
-    static Texture grass_left, grass_right, grass_most_left, grass_most_right;
-    static Texture grass_left_upper_edge, grass_right_upper_edge, grass_inside_left, grass_inside_right;
-    static Texture grass_top, grass_top_right, grass_top_left;
-    static Texture grass_inlet, grass_hole;
-    static Texture water_01, water_02, water_03, water_04;
-    static Texture cliff;
-    static Texture cliff_bottom;
+    public static Texture grass_01, grass_02, grass_03, grass_04;
+    public static Texture grass_left, grass_right, grass_most_left, grass_most_right;
+    public static Texture grass_left_upper_edge, grass_right_upper_edge, grass_inside_left, grass_inside_right;
+    public static Texture grass_top, grass_top_right, grass_top_left;
+    public static Texture grass_inlet, grass_hole;
+    public static Texture water_01, water_02, water_03, water_04;
+    public static Texture cliff;
+    public static Texture cliff_bottom;
 
     //STUFF
-    static Texture tree;
-    static Texture house;
+    public static Texture tree;
+    public static Texture house;
 
     // Player
-    static Texture player;
+    public static Texture player;
 
     //Creatures
-    static Texture birdWalk, birdFly, birdPeck, birdShadow;
-    static TextureRegion[] birdWalkFrames, birdFlyFrames, birdPeckFrames;
-    static Animation<TextureRegion> birdWalkAnim, birdPeckAnim, birdFlyAnim;
+    public static Texture birdWalk, birdFly, birdPeck, birdShadow;
+    public static TextureRegion[] birdWalkFrames, birdFlyFrames, birdPeckFrames;
+    public static Animation<TextureRegion> birdWalkAnim, birdPeckAnim, birdFlyAnim;
 
     public static void Load(){
         grass_01 = new Texture("8x8/grass/grass_01.png");

@@ -10,12 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.sandbox.game.Asset;
-import com.sandbox.game.Chunk;
-import com.sandbox.game.Entity;
+import map.Chunk;
+import entities.Entity;
 import com.sandbox.game.Enums;
-import com.sandbox.game.Tile;
-import com.sandbox.game.Enums.entityState;
-import com.sandbox.game.Enums.entityType;
+import map.Tile;
 
 public class Bird extends Entity{
 

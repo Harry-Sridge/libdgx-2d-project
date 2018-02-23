@@ -1,4 +1,4 @@
-package com.sandbox.game;
+package map;
 
 import com.badlogic.gdx.math.Vector2;
 

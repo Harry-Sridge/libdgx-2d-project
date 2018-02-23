@@ -1,4 +1,4 @@
-package com.sandbox.game;
+package map;
 
 /**
  * Created by zliu on 2018-02-16.
@@ -11,6 +11,8 @@ import Box2D.Box2DWorld;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.sandbox.game.Asset;
+import entities.Entity;
 import com.sandbox.game.Enums.tileType;
 import com.badlogic.gdx.math.MathUtils;
 

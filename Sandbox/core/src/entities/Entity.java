@@ -1,10 +1,12 @@
-package com.sandbox.game;
+package entities;
 
 /**
  * Created by Southridge on 2018-02-16.
  */
 
 import Box2D.Box2DWorld;
+import map.Tile;
+import map.Chunk;
 import redundant.Inventory;
 
 import com.badlogic.gdx.math.Vector3;
@@ -33,7 +35,7 @@ public class Entity implements Comparable<Entity> {
 
     //Entity logic
     public Texture shadow;
-    public Enums.entityState state;
+    public entityState state;
     public Boolean ticks;
     public float time;
     public Vector3 destinationVector;

@@ -57,7 +57,11 @@ public class Tile extends Entity{
         return (code.equals("000000000"));
     }
 
+<<<<<<< HEAD
     public boolean passable() {
+=======
+    public boolean isCollider() {
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
         return (!isWater() && !isCliff());
     }
 }

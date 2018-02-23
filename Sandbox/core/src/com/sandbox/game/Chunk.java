@@ -17,6 +17,7 @@ public class Chunk {
         tiles = new Tile[size][size];
     }
 
+<<<<<<< HEAD
     public Tile GetTile(int r, int c)
     {
 <<<<<<< HEAD
@@ -29,6 +30,8 @@ public class Chunk {
 >>>>>>> 6be2c20bf83b12bde4aae6531938a238f2995d8f
     }
 
+=======
+>>>>>>> parent of 05f4a68... Implemented basic npc logic
     public String GetTileCode(int r, int c)
     {
         if(r >= 0 && c >= 0)

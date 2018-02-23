@@ -27,11 +27,11 @@ public class Sandbox extends ApplicationAdapter {
 	private int displayW;
 	private int displayH;
 
-	Island island;
-	Player player;
+	private Island island;
+	private Player player;
 
-	int chunkSize = 20;
-	int iterations = 5;
+	private int chunkSize = 20;
+	private int iterations = 5;
 
 	float time;
 
@@ -64,7 +64,7 @@ public class Sandbox extends ApplicationAdapter {
         island = new Island(box2D, chunkSize, iterations);
         player = new Player(island.centreTile.pos, box2D);
         island.entities.add(player);
-        island.entities.add(new Bird(new Vector3(10,10,0), box2D, Enums.entityState.Flying));
+        //island.entities.add(new Bird(new Vector3(10,10,0), box2D, Enums.entityState.Flying));
 
         //Add entities to hash map for collisions
         box2D.PopulateEntityMap(island.entities);

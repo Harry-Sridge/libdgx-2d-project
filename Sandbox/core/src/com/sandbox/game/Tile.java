@@ -20,13 +20,13 @@ public class Tile extends Entity{
     public int row;
     public int col;
 
-    //general tile information
+    //tile information
     public String code = "";
     public Texture texture;
     public List<Texture> secondaryTextures = new ArrayList<Texture>();
     public tileType type;
 
-    public boolean occupied;
+    boolean occupied;
 
     public Tile(float row, float col, int size, tileType type, Texture texture)
     {
@@ -67,5 +67,10 @@ public class Tile extends Entity{
 
     public boolean isPassable() {
         return (!isWater() && !isCliff());
+    }
+
+    public boolean isOccupied()
+    {
+        return occupied;
     }
 }

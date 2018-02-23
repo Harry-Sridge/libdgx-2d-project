@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 
-    int health;
-    int exp;
-    String name;
+    private int health;
+    private int exp;
+    private String name;
 
     private ArrayList<Entity> interactEntities;
 

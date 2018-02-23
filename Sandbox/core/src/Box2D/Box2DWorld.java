@@ -1,7 +1,7 @@
 package Box2D;
 
 /**
- * Created by Southridge on 2018-02-16.
+ * Created by zliu on 2018-02-16.
  */
 
 import com.badlogic.gdx.physics.box2d.*;

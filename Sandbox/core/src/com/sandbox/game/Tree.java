@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 /**
- * Created by Southridge on 2018-02-17.
+ * Created by zliu on 2018-02-17.
  */
 
 public class Tree extends Entity{
@@ -25,8 +25,13 @@ public class Tree extends Entity{
     }
 
     @Override
-    public void Interact()
+    public void Interact(Entity entity)
     {
-        remove = true;
+        //check to see if the current entity has an inventory
+        if(entity.inventory != null)
+        {
+            entity.inventory.AddEntity(this);
+            removed = true;
+        }
     }
 }

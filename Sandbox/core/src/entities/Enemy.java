@@ -1,4 +1,4 @@
-package redundant;
+package entities;
 
 import Box2D.Box2DHelper;
 import Box2D.Box2DWorld;

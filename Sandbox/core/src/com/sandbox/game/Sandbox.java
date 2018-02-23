@@ -5,7 +5,7 @@ import entities.Entity;
 import entities.Player;
 import map.Island;
 import map.Tile;
-import redundant.Bird;
+import entities.Bird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

@@ -1,6 +1,8 @@
-package com.sandbox.game;
+package redundant;
 
 import java.util.HashMap;
+
+import com.sandbox.game.Entity;
 
 /**
  * Created by zliu on 2018-02-22.

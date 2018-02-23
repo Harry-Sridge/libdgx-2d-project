@@ -1,6 +1,8 @@
 package com.sandbox.game;
 
 import Box2D.Box2DWorld;
+import redundant.Bird;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

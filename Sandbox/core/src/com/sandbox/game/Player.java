@@ -5,6 +5,8 @@ package com.sandbox.game;
  */
 
 import Box2D.*;
+import redundant.Inventory;
+
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.sandbox.game.Enums.entityType;

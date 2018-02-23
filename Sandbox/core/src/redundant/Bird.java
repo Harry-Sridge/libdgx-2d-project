@@ -1,4 +1,4 @@
-package com.sandbox.game;
+package redundant;
 
 import Box2D.Box2DHelper;
 import Box2D.Box2DWorld;
@@ -9,6 +9,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.sandbox.game.Asset;
+import com.sandbox.game.Chunk;
+import com.sandbox.game.Entity;
+import com.sandbox.game.Enums;
+import com.sandbox.game.Tile;
+import com.sandbox.game.Enums.entityState;
+import com.sandbox.game.Enums.entityType;
 
 public class Bird extends Entity{
 

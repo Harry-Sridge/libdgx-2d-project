@@ -83,7 +83,8 @@ public class Asset {
 
     }
 
-    public void dispose(){
+    public void dispose()
+    {
         grass_01.dispose();
         grass_02.dispose();
         grass_03.dispose();
@@ -103,5 +104,4 @@ public class Asset {
         tree.dispose();
         player.dispose();
     }
-
 }

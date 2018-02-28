@@ -13,7 +13,7 @@ public class Enums {
 
     public enum entityType
     {
-        Player, Tree, House, Bird
+        Player, Tree, House
     }
 
     public enum entityState

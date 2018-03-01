@@ -92,12 +92,23 @@ public class Sandbox extends ApplicationAdapter {
 
 		player.update(control);
 
+<<<<<<< HEAD
 //        for(Entity e: island.entities)
 //        {
 //            e.Tick(Gdx.graphics.getDeltaTime());
 //            e.currentTile = island.chunk.GetTile(e.body.getPosition());
 //            e.Tick(Gdx.graphics.getDeltaTime(), island.chunk);
 //        }
+=======
+        /*
+        for(Entity e: island.entities)
+        {
+            e.Tick(Gdx.graphics.getDeltaTime());
+            e.currentTile = island.chunk.GetTile(e.body.getPosition());
+            e.Tick(Gdx.graphics.getDeltaTime(), island.chunk);
+        }
+        */
+>>>>>>> 7e86d26dbf5a7e036397cd53ee76ba7e87063795
 
         camera.position.lerp(player.pos, 0.1f);
 		camera.update();
@@ -142,8 +153,15 @@ public class Sandbox extends ApplicationAdapter {
         player.Reset(box2D, island.GetPlayerSpawnPos());
         island.entities.add(player);
 
+<<<<<<< HEAD
 //        for(int i = 0; i < MathUtils.random(20); i++)
 //            island.entities.add(new Bird(new Vector3(MathUtils.random(100),MathUtils.random(100),0), box2D, Enums.entityState.Flying));
+=======
+        /*
+        for(int i = 0; i < MathUtils.random(20); i++)
+            island.entities.add(new Bird(new Vector3(MathUtils.random(100),MathUtils.random(100),0), box2D, Enums.entityState.Flying));
+        */
+>>>>>>> 7e86d26dbf5a7e036397cd53ee76ba7e87063795
 
         box2D.PopulateEntityMap(island.entities);
         control.reset = false;

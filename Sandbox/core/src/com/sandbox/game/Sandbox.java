@@ -5,7 +5,6 @@ import entities.Entity;
 import entities.Player;
 import map.Island;
 import map.Tile;
-import entities.Bird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -15,8 +14,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 
 import java.util.Collections;
 
@@ -95,12 +92,12 @@ public class Sandbox extends ApplicationAdapter {
 
 		player.update(control);
 
-        for(Entity e: island.entities)
-        {
-            e.Tick(Gdx.graphics.getDeltaTime());
-            e.currentTile = island.chunk.GetTile(e.body.getPosition());
-            e.Tick(Gdx.graphics.getDeltaTime(), island.chunk);
-        }
+//        for(Entity e: island.entities)
+//        {
+//            e.Tick(Gdx.graphics.getDeltaTime());
+//            e.currentTile = island.chunk.GetTile(e.body.getPosition());
+//            e.Tick(Gdx.graphics.getDeltaTime(), island.chunk);
+//        }
 
         camera.position.lerp(player.pos, 0.1f);
 		camera.update();
@@ -145,8 +142,8 @@ public class Sandbox extends ApplicationAdapter {
         player.Reset(box2D, island.GetPlayerSpawnPos());
         island.entities.add(player);
 
-        for(int i = 0; i < MathUtils.random(20); i++)
-            island.entities.add(new Bird(new Vector3(MathUtils.random(100),MathUtils.random(100),0), box2D, Enums.entityState.Flying));
+//        for(int i = 0; i < MathUtils.random(20); i++)
+//            island.entities.add(new Bird(new Vector3(MathUtils.random(100),MathUtils.random(100),0), box2D, Enums.entityState.Flying));
 
         box2D.PopulateEntityMap(island.entities);
         control.reset = false;

@@ -84,12 +84,6 @@ public class Sandbox extends ApplicationAdapter {
         if(control.reset)
             ResetGame();
 
-        if(control.inventory)
-        {
-            player.inventory.Print();
-            control.inventory = false;
-        }
-
 		player.update(control);
 
 <<<<<<< HEAD

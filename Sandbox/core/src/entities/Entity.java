@@ -25,6 +25,10 @@ public class Entity implements Comparable<Entity> {
     public entityType type;
     public Vector3 pos;
     public Texture texture;
+<<<<<<< HEAD:Sandbox/core/src/entities/Entity.java
+=======
+
+>>>>>>> parent of 0f0b0a5... inventory:Sandbox/core/src/com/sandbox/game/Entity.java
     public float width;
     public float height;
 
@@ -70,7 +74,7 @@ public class Entity implements Comparable<Entity> {
 
     }
 
-    public void Interact(Entity entity)
+    public void Interact()
     {
 
     }
